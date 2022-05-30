@@ -1,3 +1,6 @@
+from parser import sanitize_phone_number
+
+
 contact_dict = {
     'username': '+380669999999'
 }
@@ -23,24 +26,27 @@ def show_func(user_param, phone_param, additional_action=None):
         except KeyError:
             return 'Phone action Failed. User not found'
 
+def error_func(error, *_):
+    return error
+
 OPERATIONS = {
     'add': add_func,
     'change': change_func,
     'show': show_func,
-    'phone': show_func
+    'phone': show_func,
+    'error_func': error_func
 }
 
 def get_handler(operator):
     return OPERATIONS[operator]
 
 def handler(args: list):
-    greetings_actions = 'hello',
-    close_actions = "good bye", "close", "exit"
+    
     list_args = list(args)
     handler_result = None
-    if list_args[0] in greetings_actions:
+    if list_args[0] == 'hello':
         handler_result = 'How can I help you?'
-    elif list_args[0] in close_actions:
+    elif list_args[0] =='quit':
         handler_result = 'Good bye!'
     else:
         handler_result = get_handler(list_args[0])(list_args[1], list_args[2], list_args[3])
