@@ -2,43 +2,46 @@ contact_dict = {
     'username': '+380669999999'
 }
 
+def add_func(user_param, phone_param: str, additional_action=None):
+    if not additional_action:
+        contact_dict[user_param] = phone_param
+        return 'Done'
+    
+    
+def change_func(user_param, phone_param, additional_action=None):
+    if contact_dict.get(user_param, 0):
+        contact_dict[user_param] = phone_param
+        return 'Done'
+    return 'Change action Failed. User not found'
+
+def show_func(user_param, phone_param, additional_action=None):
+    if additional_action == 'all':
+        return contact_dict
+    if user_param:
+        try:
+            return f'{user_param} phone: {contact_dict[user_param]}'
+        except KeyError:
+            return 'Phone action Failed. User not found'
+
 OPERATIONS = {
     'add': add_func,
     'change': change_func,
-    'show': show_func
+    'show': show_func,
+    'phone': show_func
 }
 
 def get_handler(operator):
     return OPERATIONS[operator]
 
 def handler(args: list):
-    show_actions = "phone", "show all"
+    greetings_actions = 'hello',
     close_actions = "good bye", "close", "exit"
     list_args = list(args)
-
-    if list_args[0] == 'hello':
-        print("How can I help you?")
-    if list_args[0] == 'add':
-        get_handler(list_args[0])(list_args[1], list_args[2])
-    if list_args[0] == 'change':
-        get_handler(list_args[0])(list_args[1], list_args[2])
-    if list_args[0] == 'phone':
-        get_handler(list_args[0])(list_args[1], list_args[2])
-    if list_args[0] in show_actions:
-        if list_args[1] == 'all':
-            print('show all actions')
-    if list_args[0] in close_actions:
-        print('"good bye", "close", "exit" actions')
-    return
-
-def command_processing(action, additional_action, user_param, phone_param):
-    return
-
-def add_func(user_param, phone_param):
-    ...
-
-def change_func(user_param, phone_param):
-    ...
-
-def show_func(user_param, phone_param, additional_action=None):
-    ...
+    handler_result = None
+    if list_args[0] in greetings_actions:
+        handler_result = 'How can I help you?'
+    elif list_args[0] in close_actions:
+        handler_result = 'Good bye!'
+    else:
+        handler_result = get_handler(list_args[0])(list_args[1], list_args[2], list_args[3])
+    return handler_result

@@ -5,7 +5,13 @@ while True:
     if command == '.':
         break
     parsed_command = parser(command)
-    print(parsed_command)
     handler_result = handler(parsed_command)
-    if handler_result == 'quit':
+    print(handler_result)
+    if handler_result == 'Good bye!':
         break
+
+        
+    
+
+    #use with name, surname = args
+    
