@@ -9,9 +9,4 @@ while True:
     print(handler_result)
     if handler_result == 'Good bye!':
         break
-
-        
-    
-
-    #use with name, surname = args
     
